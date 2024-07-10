@@ -31,13 +31,25 @@ class HomePageTest(TestCase):
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
 
-        self.assertIn('A new list item', response.content.decode())
-        self.assertTemplateUsed(response, 'home.html')
-
+    # 测试是否实现重定向
+    def test_redirects_after_POST(self):
+        response = self.client.post('/', data={'item_text': 'A new list item'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
     # 不要每次请求都保存空白的代办事项
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
+
+    # 测试模板可以显示多个代办事项
+    def test_displays_all_list_items(self):
+        Item.objects.create(text='item 1')
+        Item.objects.create(text='item 2')
+
+        response = self.client.get('/')
+
+        self.assertIn('item 1', response.content.decode())
+        self.assertIn('item 2', response.content.decode())
 
 class ItemModelTest(TestCase):
 
