@@ -2,12 +2,12 @@ import time
 
 from selenium import webdriver
 import unittest
-
+from django.test import  LiveServerTestCase
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Edge()
@@ -23,7 +23,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 伊迪丝听说有一个很酷的在线待办事项应用
         # 她去看了这个应用的首页
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 她注意到网页的标题和头部都包含“To-Do”这个词
         self.assertIn('To-Do', self.browser.title)
@@ -41,7 +41,7 @@ class NewVisitorTest(unittest.TestCase):
         # 她按回车键后，页面更新了
         # 待办事项表格中显示了“1: Buy peacock feathers”
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(3)
+        # time.sleep(1)
 
         self.check_for_row_in_list_table('1: Buy peacock feathers')
         # self.assertTrue(
@@ -55,7 +55,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(3)
+        # time.sleep(1)
 
         # 页面再次更新，她的清单中显示了这两个待办事项
         self.check_for_row_in_list_table('1: Buy peacock feathers')
@@ -69,5 +69,3 @@ class NewVisitorTest(unittest.TestCase):
         # 她很满意，去睡觉了
 
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
