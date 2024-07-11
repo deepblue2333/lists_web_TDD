@@ -1,19 +1,51 @@
-<html lang="en">
-    <head>
-        <title>To-Do lists</title>
-    </head>
-    <body>
-        <h1>Your To-Do list</h1>
-        <form method="POST" action="/lists/{{ list_id }}/add_item">
-            <input name="item_text" id="id_new_item" placeholder="Enter a to-do item" />
-            {% csrf_token %}
-        </form>
-            <table id="id_list_table">
-                {% for item in items %}
-                    <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
-                {% endfor %}
-            </table>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block header_text %}(#`O′) Your To-Do list{% endblock %}
+
+{% block form_action %}/lists/{{ list.id }}/add_item{% endblock %}
+
+{% block table %}
+    <style>
+        .no-border {
+          border: none;
+          background: none; /* 去掉按钮背景（可选） */
+          padding: 0; /* 去掉按钮内边距（可选） */
+          cursor: pointer; /* 设置鼠标悬停时的指针样式 */
+        }
+
+        .no-border:hover {
+        color: darkgray; /* 悬浮时改变按钮文本颜色 */
+        transform: scale(1.1); /* 悬浮时放大按钮 */
+        }
+    </style>
+    <table class="table" id="id_list_table">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th></th>
+        <th>Items</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for item in items %}
+         <tr>
+            <td>{{ forloop.counter }}</td>
+             <td>
+                 <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" >
+                </div>
+             </td>
+            <td id="text">{{ item.text }}</td>
+         <td>
+            <button type="button" class="close no-border" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+         </td>
+         </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
 
 

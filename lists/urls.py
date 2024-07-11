@@ -5,4 +5,5 @@ urlpatterns = [
     path('new', views.new_list, name='new_list'),
     path('<int:list_id>/', views.view_list, name='view_list'),
     path('<int:list_id>/add_item', views.add_item, name='add_item'),
+    path('<int:list_id>/delete_item', views.delete_item, name='delete_item'),
 ]
