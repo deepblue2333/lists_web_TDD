@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn server for lists.online
+
+[Service]
+Restart=on-failure
+User=chengyu
+WorkingDirectory=/home/chengyu/sites/lists_web_TDD/
+ExecStart=/home/chengyu/sites/lists_web_TDD/virtualenv/bin/gunicorn \
+    --chdir /home/chengyu/sites/lists_web_TDD/ django_web_TDD.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+
